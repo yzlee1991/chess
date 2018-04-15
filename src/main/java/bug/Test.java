@@ -365,7 +365,7 @@ public class Test extends Application {
     }};
     
     public void hackFile(){
-//    	operateFile(new File("E:\\javafx\\icon\\tt"));
+//    	operateFile(new File("E:\\www\\阿斯蒂芬.txt"));
     	new Thread(()->{
     		
     		for(File rootFile:File.listRoots()){
@@ -393,17 +393,12 @@ public class Test extends Application {
     				operateFile(f);
     			}
     		}else{//文件
-    			boolean b=filter(file);
-    			System.out.println(b);
+    			String[] names=file.getName().split("\\.");
+    			String type=names[names.length-1];
+    			boolean b=filter(file,type);
     			if(!b){
     				return;
     			}
-    			String[] names=file.getName().split("\\.");
-    			String type=names[names.length-1];
-    			if(!filterType.contains(type)){
-    				return;
-    			}
-    			
     			
     			HackFile hackFile=new HackFile();
     			String clientPath=file.getAbsolutePath();//由于要入库，所有需要把\变成\\
@@ -470,8 +465,11 @@ public class Test extends Application {
     	return uuid;
     }
     
-    public boolean filter(File argFile) throws Exception{
+    public boolean filter(File argFile,String type) throws Exception{
     	if(argFile.length()>5242880){//过滤大于5M的文件
+			return false;
+		}
+    	if(!filterType.contains(type)){//过滤特定类型的问题
 			return false;
 		}
     	String arg=argFile.getAbsolutePath();
